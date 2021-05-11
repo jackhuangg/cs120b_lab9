@@ -158,7 +158,7 @@ unsigned int period4 = 2;
 void Play(){
 	switch(state4){
 		case speakeroff:
-			if(((~PINA & 0x01) == 0x01) && timer4 > period4){
+			if(((~PINA & 0x04) == 0x04) && timer4 > period4){
 				state4 = speakeron;
 				timer4 = 1;
 			}
@@ -168,7 +168,7 @@ void Play(){
 			}
 			break;
 		case speakeron:
-			if(((~PINA & 0x01) == 0x01) && timer4 <= period4){
+			if(((~PINA & 0x04) == 0x04) && timer4 <= period4){
 				state4 = speakeron;
 				timer4++;
 			} 
