@@ -53,16 +53,40 @@ enum states1 {bit1,bit2,bit3} state1;
 enum states2 {bit3on,bit3off} state2;
 enum states3 {combine} state3;
 
+unsigned int period1 = 300;
+unsigned int timer1 = 1;
+
 void ThreeLEDsSM(){
 	switch(state1){
 		case bit1:
-			state1 = bit2;
+			if(timer1>period1){
+				state1 = bit2;
+				timer1 = 1; 
+			}
+			else{
+				state1 = bit1;
+				timer1++;
+			}
 			break;
 		case bit2:
-			state1 = bit3;
+			if(timer1>period1){
+				state1 = bit3;
+				timer1 = 1; 
+			}
+			else{
+				state1 = bit2;
+				timer1++;
+			}
 			break;
 		case bit3:
-			state1 = bit1;
+			if(timer1>period1){
+				state1 = bit1;
+				timer1 = 1;
+			}
+			else{
+				state1 = bit3;
+				timer1++;
+			}
 			break;
 	}
 	switch(state1){
@@ -77,13 +101,31 @@ void ThreeLEDsSM(){
 			break;	
 	}
 }
+
+unsigned int timer2 = 1; 
+unsigned int period2 = 1000;
+
 void BlinkingLEDSM(){
 	switch(state2){
 		case bit3on:
-			state2 = bit3off;
+			if(timer2>period2){
+				state2 = bit3off;
+				timer2 = 1;
+			}
+			else{
+				state2 = bit3on; 
+				timer2++;
+			}
 			break;
 		case bit3off:
-			state2 = bit3on;
+			if(timer2>period2){
+				state2 = bit3on;
+				timer2 = 1;
+			}
+			else{
+				state2 = bit3off;
+				timer2++;
+			}
 			break;
 	}
 	switch(state2){
@@ -114,7 +156,7 @@ int main(void) {
     /* Insert DDR and PORT initializations */
     DDRB = 0xFF; PORTB = 0x00;
     /* Insert your solution below */
-    TimerSet(1000);
+    TimerSet(1);
     TimerOn();
     while (1) {
 	ThreeLEDsSM();
